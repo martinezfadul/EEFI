@@ -35,17 +35,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickRegistrarse(View view){
         AuxSQL auxSQL = new AuxSQL(this, "DBUsuarios", null, 1);
-        SQLiteDatabase db = auxSQL.getWritableDatabase();
-        String nocuenta = edtNoCuenta.getText().toString();
-        String contraseña = edtContraseña.getText().toString();
-        ContentValues registro = new ContentValues();
-        registro.put("nocuenta", nocuenta);
-        registro.put("contraseña", contraseña);
-        db.insert("Usuarios", null, registro);
-        db.close();
-        edtNoCuenta.setText("");
-        edtContraseña.setText("");
-        Toast.makeText(this, "Se ha registrado", Toast.LENGTH_LONG).show();
+        SQLiteDatabase db = auxSQL.getReadableDatabase();
+        String codigo = edtNoCuenta.getText().toString();
+        Cursor renglon = db.rawQuery("SELECT nocuenta, contraseña FROM Usuarios WHERE nocuenta = "+codigo, null);
+        if (renglon.moveToFirst()){
+            Toast.makeText(this, "Ya estás registrado con el número de cuenta "+codigo, Toast.LENGTH_LONG).show();
+        }
+        else {
+            String nocuenta = edtNoCuenta.getText().toString();
+            String contraseña = edtContraseña.getText().toString();
+            ContentValues registro = new ContentValues();
+            registro.put("nocuenta", nocuenta);
+            registro.put("contraseña", contraseña);
+            db.insert("Usuarios", null, registro);
+            db.close();
+            edtNoCuenta.setText("");
+            edtContraseña.setText("");
+            Toast.makeText(this, "Se ha registrado", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void guardarPreferencias(){
