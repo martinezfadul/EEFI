@@ -2,6 +2,7 @@ package com.temas.selectos.eefi;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickAcceder(View view){
-        verificarDatos();
+        //verificarDatos();
+        ingreso();
+
     }
 
     public void onClickRegistrarse(View view){
@@ -84,7 +87,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Accediste con el número de cuenta "+codigo, Toast.LENGTH_LONG).show();
         }
         else {
-            Toast.makeText(this, "No estás registrado o tu numero de cuenta o contraseña son incorrectos", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No estás registrado o tus datos son incorrectos", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void ingreso()
+    {
+        Intent intentIngreso = new Intent(this,ActivityCentral.class);
+        startActivity(intentIngreso);
     }
 }
